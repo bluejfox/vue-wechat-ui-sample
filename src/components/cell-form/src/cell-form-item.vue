@@ -44,7 +44,6 @@
 import AsyncValidator from 'async-validator';
 import base from '../../libs/base';
 import objectAssign from '../../utils/merge';
-import scrollIntoView from '../../utils/scroll-into-view';
 import { getPropByPath, noop } from '../../utils/util';
 
 export default {
@@ -209,9 +208,10 @@ export default {
         }
         if (errors) {
           // 移动至出错的节点
-          if (document.querySelector('.page')) {
-            scrollIntoView(document.querySelector('.page'), this.$el);
-          }
+          this.$el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
         }
         callback(errors);
       });

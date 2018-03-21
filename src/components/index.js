@@ -1,3 +1,4 @@
+import smoothscroll from 'smoothscroll-polyfill';
 import CellCheckbox from './cell-checkbox/index';
 import CellCheckboxGroup from './cell-checkbox-group/index';
 import CellForm from './cell-form/index';
@@ -10,6 +11,8 @@ import Message from './message/index';
 import Option from './option/index';
 import Select from './select/index';
 import Switch from './switch/index';
+
+smoothscroll.polyfill();
 
 const components = [
   CellCheckbox,

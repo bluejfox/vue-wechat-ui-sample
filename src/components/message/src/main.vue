@@ -5,7 +5,9 @@
       :class="[
         `se-message--${type}`
       ]"
-      v-show="visible" role="alert">{{ message }}</div>
+      v-show="visible" role="alert"><i :class="{
+        'weui-icon-warn': type === 'error',
+      }"></i>{{ message }}</div>
   </transition>
 </template>
 

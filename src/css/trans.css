@@ -64,6 +64,12 @@
   background-color: #fef0f0;
   border-color: #fde2e2; */
 }
+.se-message--error > i {
+  color: #fff;
+  padding: 0 6px;
+  margin-top: -3px;
+  font-size: 14px;
+}
 .se-message-fade-enter,
 .se-message-fade-leave-active {
   opacity: 0;

@@ -8,12 +8,11 @@ export default function scrollIntoView(container, selected) {
     container.scrollTop = 0;
     return;
   }
-
   const top = selected.offsetTop;
   const bottom = selected.offsetTop + selected.offsetHeight;
   const viewRectTop = container.scrollTop;
   const viewRectBottom = viewRectTop + container.clientHeight;
-
+  
   if (top < viewRectTop) {
     container.scrollTop = top;
   } else if (bottom > viewRectBottom) {
