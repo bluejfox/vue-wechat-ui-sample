@@ -33,6 +33,17 @@
           <se-cell-form-item prop="switch" label="开关">
             <se-switch v-model="form.switch" :active-value="1" :inactive-value="0"></se-switch>
           </se-cell-form-item>
+          <se-cell-form-item>
+            <se-uploader
+              title="上传图片"
+              accept="image/*"
+              :limit="fileLimit"
+              :file-list="fileImagePathArr"
+              :on-exceed="handleFileExceed"
+              @preview="handleClickImage"
+              @change="handleFileChange">
+            </se-uploader>
+          </se-cell-form-item>
         </se-cell-form-item-group>
         <se-cell-form-item-group title="联系方式">
           <se-cell-form-item prop="contactType">
@@ -79,7 +90,7 @@
         </se-cell-form-item-group>
         <div class="weui-cells__tips">底部说明文字底部说明文字</div>
         <div class="weui-btn-area">
-          <button class="weui-btn weui-btn_primary" native.type="submit">提交</button>
+          <se-button type="primary" native-type="submit">提交</se-button>
         </div>
       </se-cell-form>
       <label for="weuiAgree" class="weui-agree">
@@ -89,14 +100,26 @@
           </span>
       </label>
     </div>
+    <se-gallery :visible.sync="galleryVisible" :url="selectImageUri">
+      <i
+        slot="button"
+        class="weui-icon-delete weui-icon_gallery-delete"
+        @click="handleDeleteImage"></i>
+    </se-gallery>
   </div>
 </template>
 <style scoped>
 .page__title {
   text-align: center;
 }
+.file-img {
+  background-image:url('../assets/pic_160.png');
+}
 </style>
 <script>
+import { util } from 'setaria';
+import Component from '../components/index';
+
 export default {
   data() {
     return {
@@ -123,9 +146,45 @@ export default {
           { type: 'email', message: '邮箱格式错误。' },
         ],
       },
+      galleryVisible: false,
+      fileLimit: 3,
+      fileImagePathArr: [
+        // eslint-disable-next-line
+        require('../assets/pic_160.png'),
+        // eslint-disable-next-line
+        require('../assets/pic_161.jpeg'),
+      ],
+      selectImageUri: '',
     };
   },
   methods: {
+    handleDeleteImage() {
+      if (!util.isEmpty(this.selectImageUri)) {
+        const index = this.fileImagePathArr.indexOf(this.selectImageUri);
+        if (index !== -1) {
+          this.fileImagePathArr.splice(index, 1);
+        }
+      }
+      this.galleryVisible = false;
+    },
+    handleClickImage(uri) {
+      this.galleryVisible = true;
+      this.selectImageUri = uri;
+    },
+    handleFileExceed() {
+      Component.Message.error({
+        message: `最多只可选择${this.fileLimit - this.fileImagePathArr.length}个文件`,
+      });
+    },
+    handleFileChange(files) {
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.fileImagePathArr.push(reader.result);
+        };
+      });
+    },
     handleChange(val) {
       console.log(val);
     },

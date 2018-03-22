@@ -173,3 +173,26 @@ export function setStyle(element, styleName, value) {
     }
   }
 };
+
+function nodeCompare(source, target) {
+  if (source.isEqualNode) {
+    return source.isEqualNode(target);
+  } else {
+    return source.innerHTML === target.innerHTML;
+  }
+}
+
+export function compareIsEqual(source, target) {
+  let ret = false;
+  ret = nodeCompare(source, target);
+  if (!ret && target.children) {
+    for (let i = 0; i < target.children.length; i += 1) {
+      ret = compareIsEqual(source, target.children[i]);
+      if (ret) {
+        break;
+      }
+    }
+  }
+  return ret;
+}
+
