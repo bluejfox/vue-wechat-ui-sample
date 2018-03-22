@@ -25,19 +25,22 @@ import base from '../../libs/base';
 export default {
   name: 'SeButton',
   componentName: 'SeButton',
+  mixins: [
+    base,
+  ],
   props: {
     type: {
       type: String,
-      default: 'default'
+      default: 'default',
     },
     size: String,
     icon: {
       type: String,
-      default: ''
+      default: '',
     },
     nativeType: {
       type: String,
-      default: 'button'
+      default: 'button',
     },
     loading: Boolean,
     disabled: Boolean,
@@ -57,7 +60,7 @@ export default {
     },
     buttonSize() {
       return this.size || (this.$ELEMENT || {}).size;
-    }
+    },
   },
 
   methods: {
@@ -72,7 +75,7 @@ export default {
       if (this.disabled) {
         evt.stopPropagation();
       }
-    }
-  }
+    },
+  },
 };
 </script>
